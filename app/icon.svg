@@ -1,0 +1,144 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Shield gradient -->
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Pulse animation -->
+    <style>
+      @keyframes pulse {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 0.6; transform: scale(1.1); }
+      }
+      
+      @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      
+      @keyframes shield-glow {
+        0%, 100% { filter: drop-shadow(0 0 5px #10b981); }
+        50% { filter: drop-shadow(0 0 15px #10b981); }
+      }
+      
+      @keyframes bug-move {
+        0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+        50% { transform: translate(-15px, -15px) rotate(-20deg); opacity: 0.5; }
+        100% { transform: translate(-30px, -30px) rotate(-40deg); opacity: 0; }
+      }
+      
+      .shield {
+        animation: shield-glow 2s ease-in-out infinite;
+        transform-origin: center;
+      }
+      
+      .outer-ring {
+        animation: rotate 20s linear infinite;
+        transform-origin: center;
+      }
+      
+      .inner-ring {
+        animation: rotate 15s linear infinite reverse;
+        transform-origin: center;
+      }
+      
+      .pulse-ring {
+        animation: pulse 3s ease-in-out infinite;
+        transform-origin: center;
+      }
+      
+      .bug {
+        animation: bug-move 4s ease-in-out infinite;
+        transform-origin: center;
+      }
+      
+      .bug:nth-child(2) {
+        animation-delay: 1s;
+      }
+      
+      .bug:nth-child(3) {
+        animation-delay: 2s;
+      }
+      
+      .bug:nth-child(4) {
+        animation-delay: 3s;
+      }
+    </style>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="#f0fdf4" opacity="0.5"/>
+  
+  <!-- Outer rotating ring -->
+  <g class="outer-ring">
+    <circle cx="100" cy="100" r="80" fill="none" stroke="#10b981" stroke-width="1" opacity="0.2" stroke-dasharray="5,5"/>
+  </g>
+  
+  <!-- Pulse rings -->
+  <circle class="pulse-ring" cx="100" cy="100" r="70" fill="none" stroke="#10b981" stroke-width="2" opacity="0.3"/>
+  <circle class="pulse-ring" cx="100" cy="100" r="60" fill="none" stroke="#10b981" stroke-width="2" opacity="0.3" style="animation-delay: 1s"/>
+  
+  <!-- Inner rotating ring -->
+  <g class="inner-ring">
+    <circle cx="100" cy="100" r="50" fill="none" stroke="#10b981" stroke-width="1.5" opacity="0.3" stroke-dasharray="3,3"/>
+  </g>
+  
+  <!-- Central Shield -->
+  <g class="shield">
+    <path d="M 100 40 
+             L 130 55 
+             L 130 90 
+             Q 130 110 100 125 
+             Q 70 110 70 90 
+             L 70 55 
+             Z" 
+          fill="url(#shieldGrad)" 
+          stroke="#047857" 
+          stroke-width="2"/>
+    
+    <!-- Check mark inside shield -->
+    <path d="M 85 85 L 95 95 L 115 70" 
+          fill="none" 
+          stroke="#f0fdf4" 
+          stroke-width="4" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+  </g>
+  
+  <!-- Bugs being repelled (4 directions) -->
+  <g>
+    <!-- Bug 1 - Top Right -->
+    <g class="bug" transform="translate(120, 80)">
+      <ellipse cx="0" cy="0" rx="4" ry="6" fill="#10b981" opacity="0.6"/>
+      <ellipse cx="0" cy="-4" rx="3" ry="3" fill="#10b981" opacity="0.6"/>
+      <line x1="-3" y1="0" x2="-6" y2="-3" stroke="#10b981" stroke-width="1" opacity="0.6"/>
+      <line x1="3" y1="0" x2="6" y2="-3" stroke="#10b981" stroke-width="1" opacity="0.6"/>
+    </g>
+    
+    <!-- Bug 2 - Bottom Right -->
+    <g class="bug" transform="translate(120, 120)">
+      <ellipse cx="0" cy="0" rx="4" ry="6" fill="#10b981" opacity="0.6"/>
+      <ellipse cx="0" cy="-4" rx="3" ry="3" fill="#10b981" opacity="0.6"/>
+      <line x1="-3" y1="0" x2="-6" y2="3" stroke="#10b981" stroke-width="1" opacity="0.6"/>
+      <line x1="3" y1="0" x2="6" y2="3" stroke="#10b981" stroke-width="1" opacity="0.6"/>
+    </g>
+    
+    <!-- Bug 3 - Bottom Left -->
+    <g class="bug" transform="translate(80, 120)">
+      <ellipse cx="0" cy="0" rx="4" ry="6" fill="#10b981" opacity="0.6"/>
+      <ellipse cx="0" cy="-4" rx="3" ry="3" fill="#10b981" opacity="0.6"/>
+      <line x1="-3" y1="0" x2="-6" y2="3" stroke="#10b981" stroke-width="1" opacity="0.6"/>
+      <line x1="3" y1="0" x2="6" y2="3" stroke="#10b981" stroke-width="1" opacity="0.6"/>
+    </g>
+    
+    <!-- Bug 4 - Top Left -->
+    <g class="bug" transform="translate(80, 80)">
+      <ellipse cx="0" cy="0" rx="4" ry="6" fill="#10b981" opacity="0.6"/>
+      <ellipse cx="0" cy="-4" rx="3" ry="3" fill="#10b981" opacity="0.6"/>
+      <line x1="-3" y1="0" x2="-6" y2="-3" stroke="#10b981" stroke-width="1" opacity="0.6"/>
+      <line x1="3" y1="0" x2="6" y2="-3" stroke="#10b981" stroke-width="1" opacity="0.6"/>
+    </g>
+  </g>
+</svg>
