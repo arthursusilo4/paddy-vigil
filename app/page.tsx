@@ -3,7 +3,6 @@
 import { useState } from "react";
 import PestSelector, { type PestDiseaseItem } from "./components/PestSelector";
 import CalculationDisplay from "./components/CalculationDisplay";
-import { ThemeToggle } from "./components/ThemeToggle";
 
 const allItems: PestDiseaseItem[] = [
   { id: "brown_planthopper", name: "Brown Planthopper", type: "pest" },
@@ -26,13 +25,11 @@ export default function Home() {
     <main className="max-w-5xl mx-auto px-4 py-8 md:py-12">
       <div className="space-y-8">
         <header className="relative text-center">
-          <ThemeToggle />
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
+          <h1 className="text-3xl font-bold text-slate-900">
             Pest & Disease Risk Model Explorer
           </h1>
-          <p className="text-lg text-slate-600 dark:text-slate-400 mt-1">
-            An interactive breakdown of the calculations from the
-            `EnhancedRicePestPredictor`.
+          <p className="text-lg text-slate-600 pt-1">
+            An interactive breakdown of the calculations of Pest & Disease occurance risk.
           </p>
         </header>
 

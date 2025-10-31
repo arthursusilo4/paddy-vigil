@@ -43,14 +43,14 @@ export default function PestSelector({
   return (
     <nav className="space-y-6">
       <div>
-        <h2 className="text-sm font-semibold uppercase text-slate-500 mb-3">
-          🦗 Pests
+        <h2 className="text-sm font-bold uppercase text-slate-700 mb-3">
+          🦗 Hama
         </h2>
         <div className="flex flex-wrap gap-2">{pests.map(renderButton)}</div>
       </div>
       <div>
-        <h2 className="text-sm font-semibold uppercase text-slate-500 mb-3">
-          🦠 Diseases
+        <h2 className="text-sm font-bold uppercase text-slate-700 mb-3">
+          🦠 Penyakit
         </h2>
         <div className="flex flex-wrap gap-2">{diseases.map(renderButton)}</div>
       </div>

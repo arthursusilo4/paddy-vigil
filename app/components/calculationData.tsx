@@ -1,6 +1,6 @@
-/* This file stores the "complex" data for display.
-  We translate the Python logic from `EnhancedRicePestPredictor` 
-  into human-readable descriptions and pseudo-code.
+/* File ini menyimpan data "kompleks" untuk ditampilkan.
+  Kami menerjemahkan logika Python dari `EnhancedRicePestPredictor` 
+  ke dalam deskripsi yang mudah dibaca dan pseudo-code.
 */
 
 import React from 'react';
@@ -8,14 +8,14 @@ import React from 'react';
 export interface CalculationDetails {
   name: string;
   sci_name: string;
-  type: 'Pest' | 'Disease';
+  type: 'Hama' | 'Penyakit';
   description: string;
   formula: React.ReactNode;
   variables: { name: string; description: string }[];
   source: string;
 }
 
-// Helper component for formula styling
+// Komponen pembantu untuk styling formula
 const Var = ({ children }: { children: React.ReactNode }) => (
   <span className="text-cyan-300">{children}</span>
 );
@@ -33,231 +33,231 @@ const Comment = ({ children }: { children: React.ReactNode }) => (
 );
 
 export const calculationData: Record<string, CalculationDetails> = {
-  // ==================== PESTS ====================
+  // ==================== HAMA ====================
 
   brown_planthopper: {
-    name: 'Brown Planthopper',
+    name: 'Wereng Coklat',
     sci_name: 'Nilaparvata lugens',
-    type: 'Pest',
+    type: 'Hama',
     description:
-      'Risk is calculated based on environmental suitability, crop stage, and GDD-based generation progress. Risk is amplified during the wet season.',
+      'Risiko dihitung berdasarkan kesesuaian lingkungan, tahap pertumbuhan tanaman, dan kemajuan generasi berbasis GDD. Risiko meningkat selama musim hujan.',
     formula: (
       <pre>
         <code>
-          <Comment>// 1. Calculate Suitability Factors (0.0 - 1.0)</Comment>
-          <Var>temp_suit</Var> = (IF <Var>temp</Var> 24-32°C THEN <Val>1.0</Val>{' '}
-          ELSE <Val>0.3</Val>)
+          <Comment>// 1. Hitung Faktor Kesesuaian (0.0 - 1.0)</Comment>
+          <Var>temp_suit</Var> = (JIKA <Var>temp</Var> 24-32°C MAKA <Val>1.0</Val>{' '}
+          JIKA TIDAK <Val>0.3</Val>)
           <br />
-          <Var>humidity_suit</Var> = (IF <Var>humidity</Var> {'>'} 80% THEN{' '}
-          <Val>1.0</Val> ELSE <Val>0.5</Val>)
+          <Var>humidity_suit</Var> = (JIKA <Var>humidity</Var> {'>'} 80% MAKA{' '}
+          <Val>1.0</Val> JIKA TIDAK <Val>0.5</Val>)
           <br />
-          <Var>stage_suit</Var> = (IF <Var>stage</Var> is 'Vegetative' or
-          'Reproductive' THEN <Val>1.0</Val> ELSE <Val>0.3</Val>)
+          <Var>stage_suit</Var> = (JIKA <Var>stage</Var> adalah 'Vegetatif' atau
+          'Reproduktif' MAKA <Val>1.0</Val> JIKA TIDAK <Val>0.3</Val>)
           <br />
           <Var>gen_progress</Var> = min(<Var>bph_gen_progress</Var> /{' '}
           <Val>100</Val>, <Val>1.0</Val>)
           <br />
           <br />
-          <Comment>// 2. Calculate Weighted Base Risk</Comment>
+          <Comment>// 2. Hitung Risiko Dasar Berbobot</Comment>
           <Var>base_risk</Var> = (<Var>temp_suit</Var> <Op>*</Op> <Val>0.35</Val>){' '}
           <Op>+</Op> (<Var>humidity_suit</Var> <Op>*</Op> <Val>0.30</Val>){' '}
           <Op>+</Op> (<Var>stage_suit</Var> <Op>*</Op> <Val>0.20</Val>) <Op>+</Op>{' '}
           (<Var>gen_progress</Var> <Op>*</Op> <Val>0.15</Val>)
           <br />
           <br />
-          <Comment>// 3. Apply Seasonal Multiplier</Comment>
-          <Out>FINAL_RISK_PCT</Out> = (<Var>base_risk</Var> <Op>*</Op>{' '}
+          <Comment>// 3. Terapkan Pengali Musiman</Comment>
+          <Out>RISIKO_AKHIR_PCT</Out> = (<Var>base_risk</Var> <Op>*</Op>{' '}
           <Val>100</Val>) <Op>*</Op> <Var>seasonal_mult</Var>
         </code>
       </pre>
     ),
     variables: [
-      { name: 'temp', description: 'Daily average temperature (°C).' },
-      { name: 'humidity', description: 'Daily average relative humidity (%).' },
-      { name: 'stage', description: 'Current rice growth stage.' },
+      { name: 'temp', description: 'Suhu rata-rata harian (°C).' },
+      { name: 'humidity', description: 'Kelembaban relatif rata-rata harian (%).' },
+      { name: 'stage', description: 'Tahap pertumbuhan padi saat ini.' },
       {
         name: 'bph_gen_progress',
         description:
-          'Seasonal GDD accumulation % for BPH (resets each season).',
+          'Akumulasi GDD musiman % untuk Wereng Coklat (reset setiap musim).',
       },
       {
         name: 'seasonal_mult',
-        description: 'Monsoon factor (1.3 for wet, 0.6 for dry season).',
+        description: 'Faktor musim hujan (1.3 untuk musim basah, 0.6 untuk musim kering).',
       },
     ],
     source:
-      'Model derived from calculate_bph_risk() logic, integrating GDD principles from thermal_params.',
+      'Model diturunkan dari logika calculate_bph_risk(), mengintegrasikan prinsip GDD dari thermal_params.',
   },
 
   yellow_stem_borer: {
-    name: 'Yellow Stem Borer',
+    name: 'Penggerek Batang Kuning',
     sci_name: 'Scirpophaga incertulas',
-    type: 'Pest',
+    type: 'Hama',
     description:
-      'Risk is driven by temperature, precipitation (borers prefer less rain), crop stage, and GDD-based generation progress.',
+      'Risiko didorong oleh suhu, curah hujan (penggerek lebih menyukai hujan sedikit), tahap pertumbuhan tanaman, dan kemajuan generasi berbasis GDD.',
     formula: (
       <pre>
         <code>
-          <Comment>// 1. Calculate Suitability Factors (0.0 - 1.0)</Comment>
-          <Var>temp_suit</Var> = (IF <Var>temp</Var> 20-30°C THEN <Val>1.0</Val>{' '}
-          ELSE <Val>0.4</Val>)
+          <Comment>// 1. Hitung Faktor Kesesuaian (0.0 - 1.0)</Comment>
+          <Var>temp_suit</Var> = (JIKA <Var>temp</Var> 20-30°C MAKA <Val>1.0</Val>{' '}
+          JIKA TIDAK <Val>0.4</Val>)
           <br />
-          <Var>precip_suit</Var> = (IF <Var>precip</Var> {'>'} 30mm THEN{' '}
-          <Val>0.3</Val> ELSE <Val>1.0</Val>)
+          <Var>precip_suit</Var> = (JIKA <Var>precip</Var> {'>'} 30mm MAKA{' '}
+          <Val>0.3</Val> JIKA TIDAK <Val>1.0</Val>)
           <br />
-          <Var>stage_suit</Var> = (IF <Var>stage</Var> is 'Vegetative' or
-          'Reproductive' THEN <Val>1.0</Val> ELSE <Val>0.3</Val>)
+          <Var>stage_suit</Var> = (JIKA <Var>stage</Var> adalah 'Vegetatif' atau
+          'Reproduktif' MAKA <Val>1.0</Val> JIKA TIDAK <Val>0.3</Val>)
           <br />
           <Var>gen_progress</Var> = min(<Var>ysb_gen_progress</Var> /{' '}
           <Val>100</Val>, <Val>1.0</Val>)
           <br />
           <br />
-          <Comment>// 2. Calculate Weighted Base Risk</Comment>
+          <Comment>// 2. Hitung Risiko Dasar Berbobot</Comment>
           <Var>base_risk</Var> = (<Var>temp_suit</Var> <Op>*</Op> <Val>0.30</Val>){' '}
           <Op>+</Op> (<Var>precip_suit</Var> <Op>*</Op> <Val>0.30</Val>){' '}
           <Op>+</Op> (<Var>stage_suit</Var> <Op>*</Op> <Val>0.25</Val>){' '}
           <Op>+</Op> (<Var>gen_progress</Var> <Op>*</Op> <Val>0.15</Val>)
           <br />
           <br />
-          <Comment>// 3. Apply Seasonal Multiplier</Comment>
-          <Out>FINAL_RISK_PCT</Out> = (<Var>base_risk</Var> <Op>*</Op>{' '}
+          <Comment>// 3. Terapkan Pengali Musiman</Comment>
+          <Out>RISIKO_AKHIR_PCT</Out> = (<Var>base_risk</Var> <Op>*</Op>{' '}
           <Val>100</Val>) <Op>*</Op> <Var>seasonal_mult</Var>
         </code>
       </pre>
     ),
     variables: [
-      { name: 'temp', description: 'Daily average temperature (°C).' },
-      { name: 'precip', description: 'Daily precipitation (mm).' },
-      { name: 'stage', description: 'Current rice growth stage.' },
+      { name: 'temp', description: 'Suhu rata-rata harian (°C).' },
+      { name: 'precip', description: 'Curah hujan harian (mm).' },
+      { name: 'stage', description: 'Tahap pertumbuhan padi saat ini.' },
       {
         name: 'ysb_gen_progress',
         description:
-          'Seasonal GDD accumulation % for YSB (resets each season).',
+          'Akumulasi GDD musiman % untuk Penggerek Batang Kuning (reset setiap musim).',
       },
       {
         name: 'seasonal_mult',
-        description: 'Monsoon factor (1.3 for wet, 0.6 for dry season).',
+        description: 'Faktor musim hujan (1.3 untuk musim basah, 0.6 untuk musim kering).',
       },
     ],
-    source: 'Model derived from calculate_ysb_risk() logic.',
+    source: 'Model diturunkan dari logika calculate_ysb_risk().',
   },
 
   rice_leaf_folder: {
-    name: 'Rice Leaf Folder',
+    name: 'Penggulung Daun Padi',
     sci_name: 'Cnaphalocrocis medinalis',
-    type: 'Pest',
+    type: 'Hama',
     description:
-      'Risk is highest during the vegetative stage, favored by high humidity and moderate temperatures.',
+      'Risiko tertinggi selama tahap vegetatif, disukai oleh kelembaban tinggi dan suhu sedang.',
     formula: (
       <pre>
         <code>
-          <Comment>// 1. Calculate Suitability Factors (0.0 - 1.0)</Comment>
-          <Var>temp_suit</Var> = (IF <Var>temp</Var> 24-28°C THEN <Val>1.0</Val>{' '}
-          ELSE <Val>0.5</Val>)
+          <Comment>// 1. Hitung Faktor Kesesuaian (0.0 - 1.0)</Comment>
+          <Var>temp_suit</Var> = (JIKA <Var>temp</Var> 24-28°C MAKA <Val>1.0</Val>{' '}
+          JIKA TIDAK <Val>0.5</Val>)
           <br />
-          <Var>humidity_suit</Var> = (IF <Var>humidity</Var> {'>'} 85% THEN{' '}
-          <Val>1.0</Val> ELSE <Val>0.6</Val>)
+          <Var>humidity_suit</Var> = (JIKA <Var>humidity</Var> {'>'} 85% MAKA{' '}
+          <Val>1.0</Val> JIKA TIDAK <Val>0.6</Val>)
           <br />
-          <Var>stage_suit</Var> = (IF <Var>stage</Var> is 'Vegetative' THEN{' '}
-          <Val>1.0</Val> ELSE <Val>0.7</Val>)
+          <Var>stage_suit</Var> = (JIKA <Var>stage</Var> adalah 'Vegetatif' MAKA{' '}
+          <Val>1.0</Val> JIKA TIDAK <Val>0.7</Val>)
           <br />
           <br />
-          <Comment>// 2. Calculate Weighted Base Risk</Comment>
+          <Comment>// 2. Hitung Risiko Dasar Berbobot</Comment>
           <Var>base_risk</Var> = (<Var>temp_suit</Var> <Op>*</Op> <Val>0.35</Val>){' '}
           <Op>+</Op> (<Var>humidity_suit</Var> <Op>*</Op> <Val>0.35</Val>){' '}
           <Op>+</Op> (<Var>stage_suit</Var> <Op>*</Op> <Val>0.30</Val>)
           <br />
           <br />
-          <Comment>// 3. Apply Seasonal Multiplier</Comment>
-          <Out>FINAL_RISK_PCT</Out> = (<Var>base_risk</Var> <Op>*</Op>{' '}
+          <Comment>// 3. Terapkan Pengali Musiman</Comment>
+          <Out>RISIKO_AKHIR_PCT</Out> = (<Var>base_risk</Var> <Op>*</Op>{' '}
           <Val>100</Val>) <Op>*</Op> <Var>seasonal_mult</Var>
         </code>
       </pre>
     ),
     variables: [
-      { name: 'temp', description: 'Daily average temperature (°C).' },
-      { name: 'humidity', description: 'Daily average relative humidity (%).' },
-      { name: 'stage', description: 'Current rice growth stage.' },
+      { name: 'temp', description: 'Suhu rata-rata harian (°C).' },
+      { name: 'humidity', description: 'Kelembaban relatif rata-rata harian (%).' },
+      { name: 'stage', description: 'Tahap pertumbuhan padi saat ini.' },
       {
         name: 'seasonal_mult',
-        description: 'Monsoon factor (1.3 for wet, 0.6 for dry season).',
+        description: 'Faktor musim hujan (1.3 untuk musim basah, 0.6 untuk musim kering).',
       },
     ],
-    source: 'Model derived from calculate_rlf_risk() logic.',
+    source: 'Model diturunkan dari logika calculate_rlf_risk().',
   },
 
   rice_bug: {
-    name: 'Rice Bug',
+    name: 'Kepinding Tanah',
     sci_name: 'Leptocorisa oratorius',
-    type: 'Pest',
+    type: 'Hama',
     description:
-      'Risk is highest during reproductive and maturity (milking) stages, as the pest feeds on developing grains.',
+      'Risiko tertinggi selama tahap reproduktif dan kematangan (pengisian biji), karena hama ini memakan biji yang sedang berkembang.',
     formula: (
       <pre>
         <code>
-          <Comment>// 1. Calculate Suitability Factors (0.0 - 1.0)</Comment>
-          <Var>temp_suit</Var> = (IF <Var>temp</Var> 24-32°C THEN <Val>1.0</Val>{' '}
-          ELSE <Val>0.3</Val>)
+          <Comment>// 1. Hitung Faktor Kesesuaian (0.0 - 1.0)</Comment>
+          <Var>temp_suit</Var> = (JIKA <Var>temp</Var> 24-32°C MAKA <Val>1.0</Val>{' '}
+          JIKA TIDAK <Val>0.3</Val>)
           <br />
-          <Var>stage_suit</Var> = (IF <Var>stage</Var> is 'Reproductive' or
-          'Maturity' THEN <Val>1.0</Val> ELSE <Val>0.1</Val>)
+          <Var>stage_suit</Var> = (JIKA <Var>stage</Var> adalah 'Reproduktif' atau
+          'Kematangan' MAKA <Val>1.0</Val> JIKA TIDAK <Val>0.1</Val>)
           <br />
           <Var>gen_progress</Var> = min(<Var>wst_gen_progress</Var> /{' '}
           <Val>100</Val>, <Val>1.0</Val>)
           <br />
           <br />
-          <Comment>// 2. Calculate Weighted Base Risk</Comment>
+          <Comment>// 2. Hitung Risiko Dasar Berbobot</Comment>
           <Var>base_risk</Var> = (<Var>temp_suit</Var> <Op>*</Op> <Val>0.40</Val>){' '}
           <Op>+</Op> (<Var>stage_suit</Var> <Op>*</Op> <Val>0.40</Val>){' '}
           <Op>+</Op> (<Var>gen_progress</Var> <Op>*</Op> <Val>0.20</Val>)
           <br />
           <br />
-          <Comment>// 3. Apply Seasonal Multiplier</Comment>
-          <Out>FINAL_RISK_PCT</Out> = (<Var>base_risk</Var> <Op>*</Op>{' '}
+          <Comment>// 3. Terapkan Pengali Musiman</Comment>
+          <Out>RISIKO_AKHIR_PCT</Out> = (<Var>base_risk</Var> <Op>*</Op>{' '}
           <Val>100</Val>) <Op>*</Op> <Var>seasonal_mult</Var>
         </code>
       </pre>
     ),
     variables: [
-      { name: 'temp', description: 'Daily average temperature (°C).' },
-      { name: 'stage', description: 'Current rice growth stage.' },
+      { name: 'temp', description: 'Suhu rata-rata harian (°C).' },
+      { name: 'stage', description: 'Tahap pertumbuhan padi saat ini.' },
       {
         name: 'wst_gen_progress',
         description:
-          'Seasonal GDD accumulation % for Rice Bug (resets each season).',
+          'Akumulasi GDD musiman % untuk Kepinding Tanah (reset setiap musim).',
       },
       {
         name: 'seasonal_mult',
-        description: 'Monsoon factor (1.3 for wet, 0.6 for dry season).',
+        description: 'Faktor musim hujan (1.3 untuk musim basah, 0.6 untuk musim kering).',
       },
     ],
-    source: 'Model derived from calculate_rice_bug_risk() logic.',
+    source: 'Model diturunkan dari logika calculate_rice_bug_risk().',
   },
 
   field_rat: {
-    name: 'Field Rat',
+    name: 'Tikus Sawah',
     sci_name: 'Rattus argentiventer',
-    type: 'Pest',
+    type: 'Hama',
     description:
-      'Risk is based on crop age (habitat cover) and growth stage. It is not dependent on daily weather but on seasonal patterns.',
+      'Risiko didasarkan pada umur tanaman (perlindungan habitat) dan tahap pertumbuhan. Tidak bergantung pada cuaca harian tetapi pada pola musiman.',
     formula: (
       <pre>
         <code>
-          <Comment>// 1. Calculate Suitability Factors (0.0 - 1.0)</Comment>
+          <Comment>// 1. Hitung Faktor Kesesuaian (0.0 - 1.0)</Comment>
           <Var>age_factor</Var> = min(<Var>days_since_planting</Var> /{' '}
           <Val>100</Val>, <Val>1.0</Val>)
           <br />
-          <Var>habitat_score</Var> = (IF <Var>stage</Var> is 'Vegetative' or
-          'Reproductive' THEN <Val>0.7</Val> ELSE <Val>0.4</Val>)
+          <Var>habitat_score</Var> = (JIKA <Var>stage</Var> adalah 'Vegetatif' atau
+          'Reproduktif' MAKA <Val>0.7</Val> JIKA TIDAK <Val>0.4</Val>)
           <br />
           <br />
-          <Comment>// 2. Calculate Weighted Base Risk</Comment>
+          <Comment>// 2. Hitung Risiko Dasar Berbobot</Comment>
           <Var>base_risk</Var> = (<Var>age_factor</Var> <Op>*</Op> <Val>0.5</Val>){' '}
           <Op>+</Op> (<Var>habitat_score</Var> <Op>*</Op> <Val>0.5</Val>)
           <br />
           <br />
-          <Comment>// 3. Apply Seasonal Multiplier</Comment>
-          <Out>FINAL_RISK_PCT</Out> = (<Var>base_risk</Var> <Op>*</Op>{' '}
+          <Comment>// 3. Terapkan Pengali Musiman</Comment>
+          <Out>RISIKO_AKHIR_PCT</Out> = (<Var>base_risk</Var> <Op>*</Op>{' '}
           <Val>100</Val>) <Op>*</Op> <Var>seasonal_mult</Var>
         </code>
       </pre>
@@ -265,44 +265,44 @@ export const calculationData: Record<string, CalculationDetails> = {
     variables: [
       {
         name: 'days_since_planting',
-        description: 'Days since the current growing season started.',
+        description: 'Hari sejak musim tanam saat ini dimulai.',
       },
       {
         name: 'stage',
-        description: 'Current rice growth stage (provides cover).',
+        description: 'Tahap pertumbuhan padi saat ini (memberikan perlindungan).',
       },
       {
         name: 'seasonal_mult',
-        description: 'Monsoon factor (1.3 for wet, 0.6 for dry season).',
+        description: 'Faktor musim hujan (1.3 untuk musim basah, 0.6 untuk musim kering).',
       },
     ],
-    source: 'Model derived from calculate_field_rat_risk() logic.',
+    source: 'Model diturunkan dari logika calculate_field_rat_risk().',
   },
 
   golden_snail: {
-    name: 'Golden Snail',
+    name: 'Keong Mas',
     sci_name: 'Pomacea canaliculata',
-    type: 'Pest',
+    type: 'Hama',
     description:
-      'Risk is highest in young plants (Days < 30) and in fields with standing water (3-10 cm).',
+      'Risiko tertinggi pada tanaman muda (Hari < 30) dan di sawah dengan air menggenang (3-10 cm).',
     formula: (
       <pre>
         <code>
-          <Comment>// 1. Calculate Suitability Factors (0.0 - 1.0)</Comment>
-          <Var>stage_suit</Var> = (IF <Var>days_since_planting</Var> {'<'} 30
-          THEN <Val>1.0</Val> ELSE <Val>0.1</Val>)
+          <Comment>// 1. Hitung Faktor Kesesuaian (0.0 - 1.0)</Comment>
+          <Var>stage_suit</Var> = (JIKA <Var>days_since_planting</Var> {'<'} 30
+          MAKA <Val>1.0</Val> JIKA TIDAK <Val>0.1</Val>)
           <br />
-          <Var>water_suit</Var> = (IF <Var>water_depth_cm</Var> 3-10cm THEN{' '}
-          <Val>1.0</Val> ELSE <Val>0.4</Val>)
+          <Var>water_suit</Var> = (JIKA <Var>water_depth_cm</Var> 3-10cm MAKA{' '}
+          <Val>1.0</Val> JIKA TIDAK <Val>0.4</Val>)
           <br />
           <br />
-          <Comment>// 2. Calculate Weighted Base Risk</Comment>
+          <Comment>// 2. Hitung Risiko Dasar Berbobot</Comment>
           <Var>base_risk</Var> = (<Var>stage_suit</Var> <Op>*</Op> <Val>0.6</Val>){' '}
           <Op>+</Op> (<Var>water_suit</Var> <Op>*</Op> <Val>0.4</Val>)
           <br />
           <br />
-          <Comment>// 3. Apply Seasonal Multiplier</Comment>
-          <Out>FINAL_RISK_PCT</Out> = (<Var>base_risk</Var> <Op>*</Op>{' '}
+          <Comment>// 3. Terapkan Pengali Musiman</Comment>
+          <Out>RISIKO_AKHIR_PCT</Out> = (<Var>base_risk</Var> <Op>*</Op>{' '}
           <Val>100</Val>) <Op>*</Op> <Var>seasonal_mult</Var>
         </code>
       </pre>
@@ -310,34 +310,34 @@ export const calculationData: Record<string, CalculationDetails> = {
     variables: [
       {
         name: 'days_since_planting',
-        description: 'Days since the current growing season started.',
+        description: 'Hari sejak musim tanam saat ini dimulai.',
       },
       {
         name: 'water_depth_cm',
         description:
-          'Simulated water depth (assumed 5cm in this model).',
+          'Kedalaman air simulasi (diasumsikan 5cm dalam model ini).',
       },
       {
         name: 'seasonal_mult',
-        description: 'Monsoon factor (1.3 for wet, 0.6 for dry season).',
+        description: 'Faktor musim hujan (1.3 untuk musim basah, 0.6 untuk musim kering).',
       },
     ],
-    source: 'Model derived from calculate_golden_snail_risk() logic.',
+    source: 'Model diturunkan dari logika calculate_golden_snail_risk().',
   },
 
-  // ==================== DISEASES ====================
+  // ==================== PENYAKIT ====================
 
   rice_blast: {
-    name: 'Rice Blast',
+    name: 'Blas Padi',
     sci_name: 'Pyricularia oryzae',
-    type: 'Disease',
+    type: 'Penyakit',
     description:
-      'Disease pressure (ADPI) accumulates based on daily risk scores. Daily risk is driven by leaf wetness, temperature, and nitrogen levels.',
+      'Tekanan penyakit (ADPI) terakumulasi berdasarkan skor risiko harian. Risiko harian didorong oleh durasi basah daun, suhu, dan kadar nitrogen.',
     formula: (
       <pre>
         <code>
-          <Comment>// 1. Calculate Daily Risk Score (0.0 - 1.0)</Comment>
-          <Var>temp_suit</Var> = (Peak favorability at 18-28°C)
+          <Comment>// 1. Hitung Skor Risiko Harian (0.0 - 1.0)</Comment>
+          <Var>temp_suit</Var> = (Kesesuaian puncak pada 18-28°C)
           <br />
           <Var>daily_risk</Var> = (<Var>lwd_norm</Var> <Op>*</Op> <Val>0.35</Val>){' '}
           <Op>+</Op> (<Var>temp_suit</Var> <Op>*</Op> <Val>0.25</Val>){' '}
@@ -349,19 +349,19 @@ export const calculationData: Record<string, CalculationDetails> = {
           <br />
           <br />
           <Comment>
-            // 2. Calculate ADPI (Accumulated Disease Pressure Index, 0-100)
+            // 2. Hitung ADPI (Indeks Tekanan Penyakit Terakumulasi, 0-100)
           </Comment>
-          IF <Var>daily_risk</Var> {'>'} <Val>0.25</Val>:{' '}
+          JIKA <Var>daily_risk</Var> {'>'} <Val>0.25</Val>:{' '}
           <Out>ADPI</Out> <Op>+=</Op> (<Var>daily_risk</Var> <Op>*</Op>{' '}
           <Val>40</Val>)
           <br />
-          IF <Var>daily_risk</Var> {'<'} <Val>0.15</Val>:{' '}
-          <Out>ADPI</Out> <Op>-=</Op> <Val>3</Val> (Decay)
+          JIKA <Var>daily_risk</Var> {'<'} <Val>0.15</Val>:{' '}
+          <Out>ADPI</Out> <Op>-=</Op> <Val>3</Val> (Peluruhan)
           <br />
-          ELSE: <Out>ADPI</Out> <Op>-=</Op> <Val>5</Val> (Decay)
+          JIKA TIDAK: <Out>ADPI</Out> <Op>-=</Op> <Val>5</Val> (Peluruhan)
           <br />
           <Comment>
-            // ADPI is capped at 100 and resets to 0 during 'fallow' season
+            // ADPI dibatasi hingga 100 dan direset ke 0 selama musim 'bera'
           </Comment>
         </code>
       </pre>
@@ -369,35 +369,35 @@ export const calculationData: Record<string, CalculationDetails> = {
     variables: [
       {
         name: 'lwd_norm',
-        description: 'Normalized Leaf Wetness Duration (0.0 - 1.0).',
+        description: 'Durasi Basah Daun Ternormalisasi (0.0 - 1.0).',
       },
-      { name: 'vpd_index', description: 'Vapor Pressure Deficit favorability.' },
-      { name: 'n_factor', description: 'Nitrogen Susceptibility Factor.' },
+      { name: 'vpd_index', description: 'Kesesuaian Defisit Tekanan Uap.' },
+      { name: 'n_factor', description: 'Faktor Kerentanan Nitrogen.' },
       {
         name: 'seasonal_mult',
-        description: 'Monsoon factor (1.3 for wet, 0.6 for dry season).',
+        description: 'Faktor musim hujan (1.3 untuk musim basah, 0.6 untuk musim kering).',
       },
       {
         name: 'ADPI',
         description:
-          'Accumulated Disease Pressure Index. Builds up on high-risk days, decays on low-risk days.',
+          'Indeks Tekanan Penyakit Terakumulasi. Meningkat pada hari berisiko tinggi, meluruh pada hari berisiko rendah.',
       },
     ],
     source:
-      'Model derived from calculate_daily_disease_risk() and calculate_adpi_realistic() logic.',
+      'Model diturunkan dari logika calculate_daily_disease_risk() dan calculate_adpi_realistic().',
   },
 
   bacterial_leaf_blight: {
-    name: 'Bacterial Leaf Blight',
+    name: 'Hawar Daun Bakteri',
     sci_name: 'Xanthomonas oryzae pv. oryzae',
-    type: 'Disease',
+    type: 'Penyakit',
     description:
-      'Disease pressure (ADPI) accumulates based on daily risk. Daily risk is driven by recent rainfall (spreading), temperature, and humidity.',
+      'Tekanan penyakit (ADPI) terakumulasi berdasarkan risiko harian. Risiko harian didorong oleh curah hujan terkini (penyebaran), suhu, dan kelembaban.',
     formula: (
       <pre>
         <code>
-          <Comment>// 1. Calculate Daily Risk Score (0.0 - 1.0)</Comment>
-          <Var>temp_suit</Var> = (Peak favorability at 25-30°C)
+          <Comment>// 1. Hitung Skor Risiko Harian (0.0 - 1.0)</Comment>
+          <Var>temp_suit</Var> = (Kesesuaian puncak pada 25-30°C)
           <br />
           <Var>daily_risk</Var> = (<Var>rainfall_events_7d</Var> <Op>*</Op>{' '}
           <Val>0.35</Val>) <Op>+</Op> (<Var>temp_suit</Var> <Op>*</Op>{' '}
@@ -410,51 +410,51 @@ export const calculationData: Record<string, CalculationDetails> = {
           <br />
           <br />
           <Comment>
-            // 2. Calculate ADPI (Accumulated Disease Pressure Index, 0-100)
+            // 2. Hitung ADPI (Indeks Tekanan Penyakit Terakumulasi, 0-100)
           </Comment>
-          IF <Var>daily_risk</Var> {'>'} <Val>0.25</Val>:{' '}
+          JIKA <Var>daily_risk</Var> {'>'} <Val>0.25</Val>:{' '}
           <Out>ADPI</Out> <Op>+=</Op> (<Var>daily_risk</Var> <Op>*</Op>{' '}
           <Val>40</Val>)
           <br />
-          IF <Var>daily_risk</Var> {'<'} <Val>0.15</Val>:{' '}
-          <Out>ADPI</Out> <Op>-=</Op> <Val>3</Val> (Decay)
+          JIKA <Var>daily_risk</Var> {'<'} <Val>0.15</Val>:{' '}
+          <Out>ADPI</Out> <Op>-=</Op> <Val>3</Val> (Peluruhan)
           <br />
-          ELSE: <Out>ADPI</Out> <Op>-=</Op> <Val>5</Val> (Decay)
+          JIKA TIDAK: <Out>ADPI</Out> <Op>-=</Op> <Val>5</Val> (Peluruhan)
         </code>
       </pre>
     ),
     variables: [
       {
         name: 'rainfall_events_7d',
-        description: 'Normalized count of rain days in the last 7 days.',
+        description: 'Jumlah hari hujan ternormalisasi dalam 7 hari terakhir.',
       },
-      { name: 'humidity_norm', description: 'Normalized humidity (0.0 - 1.0).' },
-      { name: 'n_factor', description: 'Nitrogen Susceptibility Factor.' },
+      { name: 'humidity_norm', description: 'Kelembaban ternormalisasi (0.0 - 1.0).' },
+      { name: 'n_factor', description: 'Faktor Kerentanan Nitrogen.' },
       {
         name: 'seasonal_mult',
-        description: 'Monsoon factor (1.3 for wet, 0.6 for dry season).',
+        description: 'Faktor musim hujan (1.3 untuk musim basah, 0.6 untuk musim kering).',
       },
       {
         name: 'ADPI',
         description:
-          'Accumulated Disease Pressure Index. Builds up on high-risk days, decays on low-risk days.',
+          'Indeks Tekanan Penyakit Terakumulasi. Meningkat pada hari berisiko tinggi, meluruh pada hari berisiko rendah.',
       },
     ],
     source:
-      'Model derived from calculate_daily_disease_risk() and calculate_adpi_realistic() logic.',
+      'Model diturunkan dari logika calculate_daily_disease_risk() dan calculate_adpi_realistic().',
   },
 
   sheath_blight: {
-    name: 'Sheath Blight',
+    name: 'Hawar Pelepah',
     sci_name: 'Rhizoctonia solani',
-    type: 'Disease',
+    type: 'Penyakit',
     description:
-      'Disease pressure (ADPI) accumulates based on daily risk. Daily risk is heavily influenced by soil moisture, dense planting, and temperature.',
+      'Tekanan penyakit (ADPI) terakumulasi berdasarkan risiko harian. Risiko harian sangat dipengaruhi oleh kelembaban tanah, penanaman rapat, dan suhu.',
     formula: (
       <pre>
         <code>
-          <Comment>// 1. Calculate Daily Risk Score (0.0 - 1.0)</Comment>
-          <Var>temp_suit</Var> = (Peak favorability at 25-32°C)
+          <Comment>// 1. Hitung Skor Risiko Harian (0.0 - 1.0)</Comment>
+          <Var>temp_suit</Var> = (Kesesuaian puncak pada 25-32°C)
           <br />
           <Var>daily_risk</Var> = (<Var>soil_moisture_norm</Var> <Op>*</Op>{' '}
           <Val>0.40</Val>) <Op>+</Op> (<Var>temp_suit</Var> <Op>*</Op>{' '}
@@ -467,16 +467,16 @@ export const calculationData: Record<string, CalculationDetails> = {
           <br />
           <br />
           <Comment>
-            // 2. Calculate ADPI (Accumulated Disease Pressure Index, 0-100)
+            // 2. Hitung ADPI (Indeks Tekanan Penyakit Terakumulasi, 0-100)
           </Comment>
-          IF <Var>daily_risk</Var> {'>'} <Val>0.25</Val>:{' '}
+          JIKA <Var>daily_risk</Var> {'>'} <Val>0.25</Val>:{' '}
           <Out>ADPI</Out> <Op>+=</Op> (<Var>daily_risk</Var> <Op>*</Op>{' '}
           <Val>40</Val>)
           <br />
-          IF <Var>daily_risk</Var> {'<'} <Val>0.15</Val>:{' '}
-          <Out>ADPI</Out> <Op>-=</Op> <Val>3</Val> (Decay)
+          JIKA <Var>daily_risk</Var> {'<'} <Val>0.15</Val>:{' '}
+          <Out>ADPI</Out> <Op>-=</Op> <Val>3</Val> (Peluruhan)
           <br />
-          ELSE: <Out>ADPI</Out> <Op>-=</Op> <Val>5</Val> (Decay)
+          JIKA TIDAK: <Out>ADPI</Out> <Op>-=</Op> <Val>5</Val> (Peluruhan)
         </code>
       </pre>
     ),
@@ -484,39 +484,39 @@ export const calculationData: Record<string, CalculationDetails> = {
       {
         name: 'soil_moisture_norm',
         description:
-          'Normalized soil moisture (simulated from humidity).',
+          'Kelembaban tanah ternormalisasi (disimulasikan dari kelembaban).',
       },
       {
         name: 'plant_density_norm',
         description:
-          'Normalized plant density (simulated, higher = less airflow).',
+          'Kepadatan tanaman ternormalisasi (disimulasikan, semakin tinggi = sirkulasi udara semakin sedikit).',
       },
-      { name: 'humidity_norm', description: 'Normalized humidity (0.0 - 1.0).' },
+      { name: 'humidity_norm', description: 'Kelembaban ternormalisasi (0.0 - 1.0).' },
       {
         name: 'seasonal_mult',
-        description: 'Monsoon factor (1.3 for wet, 0.6 for dry season).',
+        description: 'Faktor musim hujan (1.3 untuk musim basah, 0.6 untuk musim kering).',
       },
       {
         name: 'ADPI',
         description:
-          'Accumulated Disease Pressure Index. Builds up on high-risk days, decays on low-risk days.',
+          'Indeks Tekanan Penyakit Terakumulasi. Meningkat pada hari berisiko tinggi, meluruh pada hari berisiko rendah.',
       },
-    ],
+      ],
     source:
-      'Model derived from calculate_daily_disease_risk() and calculate_adpi_realistic() logic.',
+      'Model diturunkan dari logika calculate_daily_disease_risk() dan calculate_adpi_realistic().',
   },
 
   brown_spot: {
-    name: 'Brown Spot',
+    name: 'Bercak Coklat',
     sci_name: 'Helminthosporium oryzae',
-    type: 'Disease',
+    type: 'Penyakit',
     description:
-      'Disease pressure (ADPI) accumulates based on daily risk. This disease is often linked to older plants and nutrient stress (low Potassium).',
+      'Tekanan penyakit (ADPI) terakumulasi berdasarkan risiko harian. Penyakit ini sering dikaitkan dengan tanaman tua dan stres nutrisi (Kalium rendah).',
     formula: (
       <pre>
         <code>
-          <Comment>// 1. Calculate Daily Risk Score (0.0 - 1.0)</Comment>
-          <Var>temp_suit</Var> = (Peak favorability at 25-28°C)
+          <Comment>// 1. Hitung Skor Risiko Harian (0.0 - 1.0)</Comment>
+          <Var>temp_suit</Var> = (Kesesuaian puncak pada 25-28°C)
           <br />
           <Var>daily_risk</Var> = (<Var>plant_age_factor</Var> <Op>*</Op>{' '}
           <Val>0.30</Val>) <Op>+</Op> (<Var>lwd_norm</Var> <Op>*</Op>{' '}
@@ -529,75 +529,75 @@ export const calculationData: Record<string, CalculationDetails> = {
           <br />
           <br />
           <Comment>
-            // 2. Calculate ADPI (Accumulated Disease Pressure Index, 0-100)
+            // 2. Hitung ADPI (Indeks Tekanan Penyakit Terakumulasi, 0-100)
           </Comment>
-          IF <Var>daily_risk</Var> {'>'} <Val>0.25</Val>:{' '}
+          JIKA <Var>daily_risk</Var> {'>'} <Val>0.25</Val>:{' '}
           <Out>ADPI</Out> <Op>+=</Op> (<Var>daily_risk</Var> <Op>*</Op>{' '}
           <Val>40</Val>)
           <br />
-          IF <Var>daily_risk</Var> {'<'} <Val>0.15</Val>:{' '}
-          <Out>ADPI</Out> <Op>-=</Op> <Val>3</Val> (Decay)
+          JIKA <Var>daily_risk</Var> {'<'} <Val>0.15</Val>:{' '}
+          <Out>ADPI</Out> <Op>-=</Op> <Val>3</Val> (Peluruhan)
           <br />
-          ELSE: <Out>ADPI</Out> <Op>-=</Op> <Val>5</Val> (Decay)
+          JIKA TIDAK: <Out>ADPI</Out> <Op>-=</Op> <Val>5</Val> (Peluruhan)
         </code>
       </pre>
     ),
     variables: [
       {
         name: 'plant_age_factor',
-        description: 'Normalized plant age (older plants are more susceptible).',
+        description: 'Umur tanaman ternormalisasi (tanaman tua lebih rentan).',
       },
       {
         name: 'lwd_norm',
-        description: 'Normalized Leaf Wetness Duration (0.0 - 1.0).',
+        description: 'Durasi Basah Daun Ternormalisasi (0.0 - 1.0).',
       },
       {
         name: 'fertility_factor',
         description:
-          'Nutrient stress factor (simulated, based on low Potassium).',
+          'Faktor stres nutrisi (disimulasikan, berdasarkan Kalium rendah).',
       },
       {
         name: 'seasonal_mult',
-        description: 'Monsoon factor (1.3 for wet, 0.6 for dry season).',
+        description: 'Faktor musim hujan (1.3 untuk musim basah, 0.6 untuk musim kering).',
       },
       {
         name: 'ADPI',
         description:
-          'Accumulated Disease Pressure Index. Builds up on high-risk days, decays on low-risk days.',
+          'Indeks Tekanan Penyakit Terakumulasi. Meningkat pada hari berisiko tinggi, meluruh pada hari berisiko rendah.',
       },
     ],
     source:
-      'Model derived from calculate_daily_disease_risk() and calculate_adpi_realistic() logic.',
+      'Model diturunkan dari logika calculate_daily_disease_risk() dan calculate_adpi_realistic().',
   },
 
   tungro: {
-    name: 'Tungro Virus',
-    sci_name: 'RTBV + RTSV (via Green Leafhopper)',
-    type: 'Disease',
+    name: 'Virus Tungro',
+    sci_name: 'RTBV + RTSV (melalui Wereng Hijau)',
+    type: 'Penyakit',
     description:
-      'Tungro risk is calculated based on the vector (Green Leafhopper) generation progress and the plant a high-risk transmission window (20-60 days).',
+      'Risiko tungro dihitung berdasarkan kemajuan generasi vektor (Wereng Hijau) dan jendela transmisi berisiko tinggi tanaman (20-60 hari).',
     formula: (
       <pre>
         <code>
           <Comment>
-            // 1. Calculate Vector (GLH) Generation Progress (0-200%)
+            // 1. Hitung Kemajuan Generasi Vektor (WHD) (0-200%)
           </Comment>
-          <Var>glh_daily_gdd</Var> = (GDD calculated daily for vector)
+          <Var>glh_daily_gdd</Var> = (GDD dihitung harian untuk vektor)
           <br />
-          <Var>glh_gdd_cumulative</Var> = (Accumulates seasonally, similar to
-          pests)
+          <Var>glh_gdd_cumulative</Var> = (Terakumulasi secara musiman, mirip dengan
+          hama)
           <br />
           <Var>vector_gen_progress</Var> = (<Var>glh_gdd_cumulative</Var> /{' '}
           <Val>240</Val>) <Op>*</Op> <Val>100</Val>
           <br />
           <br />
-          <Comment>// 2. Calculate Plant Susceptibility (0.0 - 1.0)</Comment>
-          <Var>transmission_window</Var> = (IF <Var>days_since_planting</Var>{' '}
-          20-60 THEN <Val>1.0</Val> ELSE <Val>0.1</Val>)
+          <Comment>// 2. Hitung Kerentanan Tanaman (0.0 - 1.0)</Comment>
+          <Var>transmission_window</Var> = (JIKA <Var>days_since_planting</Var>{' '}
+          20-60 MAKA <Val>1.0</Val> JIKA TIDAK <Val>0.1</Val>)
           <br />
           <br />
-          <Comment>// 3. Calculate Final Risk</Comment>
-          <Out>FINAL_RISK_PCT</Out> = (<Var>vector_gen_progress</Var> /{' '}
+          <Comment>// 3. Hitung Risiko Akhir</Comment>
+          <Out>RISIKO_AKHIR_PCT</Out> = (<Var>vector_gen_progress</Var> /{' '}
           <Val>100</Val>) <Op>*</Op> <Var>transmission_window</Var> <Op>*</Op>{' '}
           <Val>100</Val>
         </code>
@@ -607,15 +607,15 @@ export const calculationData: Record<string, CalculationDetails> = {
       {
         name: 'vector_gen_progress',
         description:
-          'GDD-based generation progress of the Green Leafhopper vector.',
+          'Kemajuan generasi berbasis GDD dari vektor Wereng Hijau.',
       },
       {
         name: 'transmission_window',
         description:
-          'Plant susceptibility factor, peaking at 20-60 days after planting.',
+          'Faktor kerentanan tanaman, puncaknya pada 20-60 hari setelah tanam.',
       },
     ],
     source:
-      'Model derived from tungro_risk calculation logic, using GDD principles for the vector.',
+      'Model diturunkan dari logika perhitungan tungro_risk, menggunakan prinsip GDD untuk vektor.',
   },
 };

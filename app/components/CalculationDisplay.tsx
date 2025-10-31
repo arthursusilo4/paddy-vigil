@@ -11,10 +11,10 @@ export default function CalculationDisplay({
 }: CalculationDisplayProps) {
   const data =
     calculationData[selectedId] ||
-    calculationData['brown_planthopper']; // Fallback
+    calculationData['brown_planthopper']; // Cadangan
 
   const typeBadgeClass =
-    data.type === 'Pest'
+    data.type === 'Hama'
       ? 'bg-green-100 text-green-800'
       : 'bg-red-100 text-red-800';
 
@@ -36,22 +36,22 @@ export default function CalculationDisplay({
         <p className="text-slate-700 mt-4">{data.description}</p>
       </header>
 
-      {/* Main Content */}
+      {/* Konten Utama */}
       <div className="space-y-8">
-        {/* Formula Section */}
+        {/* Bagian Formula */}
         <section>
           <h3 className="text-xl font-semibold mb-4 text-slate-800">
-            🧮 Core Risk Calculation
+            🧮 Perhitungan Resiko Utama
           </h3>
           <div className="bg-slate-900 text-slate-100 p-4 rounded-lg font-mono text-sm overflow-x-auto">
             {data.formula}
           </div>
         </section>
 
-        {/* Variables Section */}
+        {/* Bagian Variabel */}
         <section>
           <h3 className="text-xl font-semibold mb-4 text-slate-800">
-            🔬 Variables Explained
+            🔬 Penjelasan Variabel
           </h3>
           <ul className="space-y-3">
             {data.variables.map((v) => (
@@ -66,23 +66,23 @@ export default function CalculationDisplay({
           </ul>
         </section>
 
-        {/* Source Section */}
-        <section>
+        {/* Bagian Sumber */}
+        {/* <section>
           <h3 className="text-xl font-semibold mb-4 text-slate-800">
-            📚 Source & Citation
+            📚 Sumber & Kutipan
           </h3>
           <blockquote className="border-l-4 border-slate-300 pl-4 italic text-slate-600">
             {data.source}
           </blockquote>
-        </section>
+        </section> */}
       </div>
     </article>
   );
 }
 
-// Simple fade-in animation for the card
-// Add this to your globals.css or in a style tag if you prefer
-// We can also just add a new animation to tailwind.config.ts
+// Animasi fade-in sederhana untuk card
+// Tambahkan ini ke globals.css Anda atau dalam tag style jika Anda lebih suka
+// Kita juga bisa menambahkan animasi baru ke tailwind.config.ts
 /*
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
