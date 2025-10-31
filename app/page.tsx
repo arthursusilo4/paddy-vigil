@@ -5,17 +5,17 @@ import PestSelector, { type PestDiseaseItem } from "./components/PestSelector";
 import CalculationDisplay from "./components/CalculationDisplay";
 
 const allItems: PestDiseaseItem[] = [
-  { id: "brown_planthopper", name: "Brown Planthopper", type: "pest" },
-  { id: "yellow_stem_borer", name: "Yellow Stem Borer", type: "pest" },
-  { id: "rice_leaf_folder", name: "Rice Leaf Folder", type: "pest" },
-  { id: "rice_bug", name: "Rice Bug", type: "pest" },
-  { id: "field_rat", name: "Field Rat", type: "pest" },
-  { id: "golden_snail", name: "Golden Snail", type: "pest" },
-  { id: "rice_blast", name: "Rice Blast", type: "disease" },
-  { id: "bacterial_leaf_blight", name: "Bacterial Leaf Blight", type: "disease" },
-  { id: "sheath_blight", name: "Sheath Blight", type: "disease" },
-  { id: "brown_spot", name: "Brown Spot", type: "disease" },
-  { id: "tungro", name: "Tungro Virus", type: "disease" },
+  { id: "brown_planthopper", name: "Wereng Coklat", type: "pest" },
+  { id: "yellow_stem_borer", name: "Penggerek Batang Kuning", type: "pest" },
+  { id: "rice_leaf_folder", name: "Penggulung Daun Padi", type: "pest" },
+  { id: "rice_bug", name: "Kepinding Tanah", type: "pest" },
+  { id: "field_rat", name: "Tikus Sawah", type: "pest" },
+  { id: "golden_snail", name: "Keong Mas", type: "pest" },
+  { id: "rice_blast", name: "Blas Padi", type: "disease" },
+  { id: "bacterial_leaf_blight", name: "Hawar Daun Bakteri", type: "disease" },
+  { id: "sheath_blight", name: "Hawar Pelepah", type: "disease" },
+  { id: "brown_spot", name: "Bercak Coklat", type: "disease" },
+  { id: "tungro", name: "Virus Tungro", type: "disease" },
 ];
 
 export default function Home() {
@@ -26,10 +26,10 @@ export default function Home() {
       <div className="space-y-8">
         <header className="relative text-center">
           <h1 className="text-3xl font-bold text-slate-900">
-            Pest & Disease Risk Model Explorer
+            Kamus Model Resiko Hama & Penyakit
           </h1>
           <p className="text-lg text-slate-600 pt-1">
-            An interactive breakdown of the calculations of Pest & Disease occurance risk.
+            Rincian interaktif dari perhitungan resiko kemunculan Hama & Penyakit.
           </p>
         </header>
 
